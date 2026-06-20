@@ -28,3 +28,83 @@ input,textarea{border:2px solid #ffc0e4;border-radius:16px;padding:12px 14px;fon
 #gameCanvas{height:440px;position:relative;overflow:hidden;border:3px solid white;border-radius:20px;background:linear-gradient(#dff8ff,#fff2fa);margin-top:10px}.catcher,.falling{position:absolute;font-size:44px}.catcher{bottom:12px;left:45%}.falling{top:-45px}
 .badge{display:inline-block;background:white;border:2px solid #ffd1ec;border-radius:999px;padding:6px 10px;margin:4px;font-weight:900}.news-box{background:white;border:2px solid #ffd1ec;border-radius:18px;padding:12px;margin:10px 0}.headline{font-size:20px;color:var(--pink);font-weight:900}
 @media(max-width:950px){.room-layout{grid-template-columns:1fr}.topbar{flex-direction:column;align-items:flex-start}.chat-panel{height:360px}.room-action-overlay{position:relative;left:auto;top:auto;width:auto;margin:10px}}
+
+
+/* V5 UI FIXES */
+.room-action-overlay{
+  background: rgba(255,255,255,.64) !important;
+  width: min(340px, calc(100% - 44px)) !important;
+  max-height: 68%;
+  overflow: auto;
+  padding: 12px !important;
+  backdrop-filter: blur(3px) !important;
+}
+
+.room-action-overlay:hover{
+  background: rgba(255,255,255,.88) !important;
+}
+
+.room-action-overlay h3{
+  font-size: 20px !important;
+}
+
+.room-action-overlay .card{
+  background: rgba(255,242,250,.72);
+  padding: 9px;
+}
+
+.shop-grid{
+  grid-template-columns: 1fr !important;
+  gap: 6px !important;
+}
+
+.shop-item{
+  padding: 7px !important;
+  font-size: 13px;
+}
+
+.shop-item .buy-btn{
+  padding: 7px 10px;
+  font-size: 12px;
+}
+
+#playersLayer{
+  z-index: 95;
+}
+
+.player{
+  z-index: 96 !important;
+}
+
+.player .body{
+  font-size: 82px !important;
+}
+
+.player .wear{
+  font-size: 38px !important;
+}
+
+.player .name{
+  font-size: 15px;
+}
+
+.chat-panel{
+  background: rgba(255,255,255,.82) !important;
+  backdrop-filter: blur(3px);
+}
+
+.global-chat-note{
+  font-size: 12px;
+  opacity: .7;
+  margin-top: -4px;
+}
+
+@media(max-width:950px){
+  .room-action-overlay{
+    position:absolute !important;
+    left: 12px !important;
+    top: 12px !important;
+    width: min(310px, calc(100% - 24px)) !important;
+    max-height: 55%;
+  }
+}

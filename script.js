@@ -73,7 +73,7 @@ async function openRoom(r){room=r;mapView.classList.remove('active');roomView.cl
 function renderRoom(r){renderDecor();if(r==='dream')dream();if(r==='cafe')cafe();if(r==='mall')mall();if(r==='fortune')fortune();if(r==='hall')hall();if(r==='times')times()}
 function renderPlayers(){
  if(!current||!playersLayer)return;
- const spots={A:[50,72],N:[59,72],Y:[41,72]};
+ const spots={A:[47,78],N:[58,78],Y:[69,78]};
  playersLayer.innerHTML=['A','N','Y'].map(id=>{
    const p=presence[id]||{}, m=members[id]||blank();
    if(p.room!==room || !p.online)return '';
@@ -95,12 +95,12 @@ function renderDecor(){
 }
 
 function setFloating(html){floatingRoomPanel.innerHTML=html}
-function dream(){setFloating(`<h3>🏰 Dream Lodge</h3><p>Decorate your lodge and play Bow Hunt.</p><div class="overlay-buttons"><button class="game-btn" onclick="startBowHunt()">Start Bow Hunt</button><button class="plain-btn" onclick="clearDecor()">Clear Furniture</button></div>${shopHTML('dream','Furniture Shop')}`)}
+function dream(){setFloating(`<h3>🏰 Dream Lodge</h3><p>Bow Hunt + furniture.</p><div class="overlay-buttons"><button class="game-btn" onclick="startBowHunt()">Bow Hunt</button><button class="plain-btn" onclick="clearDecor()">Clear Furniture</button></div><details><summary>🛋️ Furniture Shop</summary>${shopHTML('dream','Furniture Shop')}</details>`)}
 async function clearDecor(){await patchMe({decor:[]});renderDecor();dream()} window.clearDecor=clearDecor;
 
 function cafe(){setFloating(`<h3>☕ Café</h3><p>Play Cupcake Catch. Catch cupcakes and avoid broccoli.</p><button class="game-btn" onclick="startCupcakeCatch()">Start Cupcake Catch</button><div class="card"><h3>Recipes</h3><span class="badge">🧁 Cupcake Recipe</span><span class="badge">🧋 Bubble Tea Recipe</span><span class="badge">🍓 Strawberry Latte</span></div>`)}
-function mall(){setFloating(`<h3>🎀 Mall</h3><p>Buy clothes, then click Wear. Your penguin shows the item in every room.</p><button class="game-btn" onclick="startMemory()">Start Mall Memory</button>${shopHTML('mall','Mall Shop')}`)}
-function fortune(){setFloating(`<h3>🔮 Fortune Fish</h3><p>Click the fish for a fortune. Each fortune gives 5 coins.</p><button class="game-btn" onclick="fortuneFish()">🐟 Click Fish</button><p id="fortuneText" class="headline"></p>${shopHTML('fortune','Mystic Shop')}`)}
+function mall(){setFloating(`<h3>🎀 Mall</h3><p>Shop + Mall Memory.</p><button class="game-btn" onclick="startMemory()">Mall Memory</button><details open><summary>🛍️ Mall Shop</summary>${shopHTML('mall','Mall Shop')}</details>`)}
+function fortune(){setFloating(`<h3>🔮 Fortune Fish</h3><p>Click for fortune + 5 coins.</p><button class="game-btn" onclick="fortuneFish()">🐟 Click Fish</button><p id="fortuneText" class="headline"></p><details><summary>🔮 Mystic Shop</summary>${shopHTML('fortune','Mystic Shop')}</details>`)}
 function hall(){
  const rows=['A','N','Y'].map(id=>[id,members[id]||blank()]).sort((a,b)=>(b[1].xp||0)-(a[1].xp||0));
  setFloating(`<h3>🏆 Hall Leaderboard</h3><div class="leader-grid">${rows.map(([id,p],i)=>`<div class="leader-card">${i+1}. 🐧 ${id}<br>Lv ${p.level||1}<br>🪙 ${p.coins||0}<br>${p.title||'New Penguin'}</div>`).join('')}</div><button class="game-btn" onclick="startQuiz()">Take Penguin Quiz</button><div class="card"><h3>Your Trophies</h3>${(me().achievements||[]).map(a=>`<span class="badge">${a}</span>`).join('')||'No titles yet.'}</div>`);
@@ -178,12 +178,18 @@ window.newHeadline=newHeadline;window.claimTimesCoins=claimTimesCoins;
 
 async function sendChat(){
  const text=chatInput.value.trim(); if(!text||!current)return; chatInput.value='';
- await addDoc(collection(db,'messages'),{from:current,text,room,createdAt:Date.now()});
+ await addDoc(collection(db,'messages'),{from:current,text,room:'global',createdAt:Date.now()});
 }
 function renderChat(){
  if(!current||!chatMessages)return;
- const shown=messages.filter(m=>m.room===room).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0)).slice(-40);
- chatMessages.innerHTML=shown.map(m=>`<div class="chat-msg"><b>${escapeHTML(m.from||'?')}:</b><div>${escapeHTML(m.text||'')}</div></div>`).join('')||'<p class="tiny">No messages in this room yet.</p>';
+ const shown=messages
+   .sort((a,b)=>(a.createdAt||0)-(b.createdAt||0))
+   .slice(-60);
+
+ chatMessages.innerHTML =
+   `<p class="global-chat-note">Global club chat. Everyone sees this in every room.</p>` +
+   (shown.map(m=>`<div class="chat-msg"><b>${escapeHTML(m.from||'?')}:</b><div>${escapeHTML(m.text||'')}</div></div>`).join('') || '<p class="tiny">No messages yet.</p>');
+
  chatMessages.scrollTop=chatMessages.scrollHeight;
 }
 function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
