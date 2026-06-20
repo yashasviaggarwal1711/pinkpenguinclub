@@ -61,19 +61,34 @@
       <h2 id="roomTitle">Room</h2>
       <button id="saveBtn" class="small-btn">Save</button>
     </div>
+
     <div class="room-layout">
-      <div class="image-stage room-stage">
+      <div class="image-stage room-stage" id="roomStage">
         <img id="roomImage" src="" alt="">
-        <div id="overlayLayer"></div>
+        <div id="decorLayer"></div>
+        <div id="penguinAvatar">
+          <div id="wearingLayer"></div>
+          <div class="penguin-body">🐧</div>
+          <div id="penguinName">Y</div>
+        </div>
       </div>
+
       <aside class="side-panel">
         <div id="roomInfo"></div>
-        <div id="gameArea"></div>
         <div id="shopArea"></div>
       </aside>
     </div>
   </section>
 </section>
+
+<div id="modal" class="modal hidden">
+  <div class="modal-card">
+    <button id="modalClose" class="modal-close">×</button>
+    <h2 id="modalTitle"></h2>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
 <script src="script.js"></script>
 </body>
 </html>
