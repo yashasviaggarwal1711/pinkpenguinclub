@@ -1,106 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pink Penguin Club Alpha</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pink Penguin Club</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="sparkleLayer"></div>
-
-  <section id="loginScreen" class="screen active">
-    <div class="login-card">
-      <div class="big-logo">🐧</div>
-      <h1>Pink Penguin Club</h1>
-      <p>A tiny multiplayer world for A • N • Y</p>
-
-      <div class="member-pick">
-        <button class="member-btn selected" data-member="A">A</button>
-        <button class="member-btn" data-member="N">N</button>
-        <button class="member-btn" data-member="Y">Y</button>
-      </div>
-
-      <input id="codeInput" type="password" placeholder="secret penguin code" />
-      <button id="loginBtn" class="primary">Enter Club</button>
-      <p id="loginMsg" class="msg"></p>
-
-      <p class="tiny">Codes: A = fishcake, N = snowstar, Y = pinkfish</p>
+<section id="loginScreen" class="screen active">
+  <div class="login-card">
+    <div class="logo">🐧</div>
+    <h1>Pink Penguin Club</h1>
+    <p>A tiny Barbie x Club Penguin world for A • N • Y</p>
+    <div class="member-row">
+      <button class="member-btn selected" data-member="A">A</button>
+      <button class="member-btn" data-member="N">N</button>
+      <button class="member-btn" data-member="Y">Y</button>
     </div>
-  </section>
-
-  <section id="clubScreen" class="screen">
-    <header class="topbar">
-      <div>
-        <h2>Pink Penguin Club</h2>
-        <p id="statusLine">Logged in</p>
-      </div>
-
-      <div class="statbar">
-        <span>⭐ Lv <b id="levelText">1</b></span>
-        <span>✨ XP <b id="xpText">0</b></span>
-        <span>🪙 <b id="coinsText">100</b></span>
-        <span>🎒 <b id="wearingText">none</b></span>
-      </div>
-    </header>
-
-    <main class="layout">
-      <section class="game-card">
-        <div class="room-top">
-          <div>
-            <h3 id="roomTitle">HQ</h3>
-            <p id="roomSub">Use WASD / arrow keys. You can see each other live.</p>
-          </div>
-          <button id="mapBtn" class="small">Map</button>
-        </div>
-
-        <div id="roomStage" class="stage hq">
-          <div id="roomDecor"></div>
-          <div id="livePenguins"></div>
-          <div id="clickZones"></div>
-        </div>
-
-        <div class="room-actions">
-          <button class="small roomNav" data-room="HQ">🏠 HQ</button>
-          <button class="small roomNav" data-room="Cafe">☕ Café</button>
-          <button class="small roomNav" data-room="Mall">🎀 Mall</button>
-          <button class="small roomNav" data-room="Fortune">🔮 Fortune</button>
-          <button class="small roomNav" data-room="Hall">🏆 Hall</button>
-          <button class="small roomNav" data-room="Times">📰 Times</button>
-        </div>
-      </section>
-
-      <aside class="side">
-        <div class="panel">
-          <h3>Live Messages</h3>
-          <div id="messagesBox"></div>
-          <div class="message-send">
-            <input id="messageInput" maxlength="120" placeholder="leave a message..." />
-            <button id="sendMsgBtn" class="small">Send</button>
-          </div>
-        </div>
-
-        <div class="panel">
-          <h3>Leaderboard</h3>
-          <div id="leaderboard"></div>
-        </div>
-
-        <div class="panel">
-          <h3>Room Stuff</h3>
-          <div id="roomPanel"></div>
-        </div>
-      </aside>
-    </main>
-  </section>
-
-  <div id="modal" class="modal hidden">
-    <div class="modal-card">
-      <button id="modalClose" class="x">×</button>
-      <h2 id="modalTitle"></h2>
-      <div id="modalBody"></div>
-    </div>
+    <input id="codeInput" type="password" placeholder="secret penguin code">
+    <button id="loginBtn" class="pink-btn">Enter Island</button>
+    <p id="loginMsg"></p>
+    <p class="tiny">Codes: A = fishcake, N = snowstar, Y = pinkfish</p>
   </div>
+</section>
 
-  <script type="module" src="script.js"></script>
+<section id="gameScreen" class="screen">
+  <header class="topbar">
+    <div><h1>Pink Penguin Club</h1><p id="whoText"></p></div>
+    <div class="stats">
+      <span>🪙 <b id="coinText">0</b></span>
+      <span>⭐ Lv <b id="levelText">1</b></span>
+      <span>✨ XP <b id="xpText">0</b></span>
+      <span>👑 <b id="titleText">New Penguin</b></span>
+    </div>
+  </header>
+
+  <section id="mapView" class="view active">
+    <div class="image-stage map-stage">
+      <img src="assets/map.png" alt="Pink Penguin Club map">
+      <button class="hotspot dream" data-room="dream">Dream Lodge</button>
+      <button class="hotspot cafe" data-room="cafe">Café</button>
+      <button class="hotspot mall" data-room="mall">Mall</button>
+      <button class="hotspot fortune" data-room="fortune">Fortune</button>
+      <button class="hotspot hall" data-room="hall">Hall</button>
+      <button class="hotspot times" data-room="times">Times</button>
+    </div>
+    <nav class="nav-buttons">
+      <button data-room="dream">🏰 Dream Lodge</button>
+      <button data-room="cafe">☕ Café</button>
+      <button data-room="mall">🎀 Mall</button>
+      <button data-room="fortune">🔮 Fortune</button>
+      <button data-room="hall">🏆 Hall</button>
+      <button data-room="times">📰 Times</button>
+    </nav>
+  </section>
+
+  <section id="roomView" class="view">
+    <div class="room-head">
+      <button id="backToMap" class="small-btn">← Map</button>
+      <h2 id="roomTitle">Room</h2>
+      <button id="saveBtn" class="small-btn">Save</button>
+    </div>
+    <div class="room-layout">
+      <div class="image-stage room-stage">
+        <img id="roomImage" src="" alt="">
+        <div id="overlayLayer"></div>
+      </div>
+      <aside class="side-panel">
+        <div id="roomInfo"></div>
+        <div id="gameArea"></div>
+        <div id="shopArea"></div>
+      </aside>
+    </div>
+  </section>
+</section>
+<script src="script.js"></script>
 </body>
 </html>
