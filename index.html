@@ -66,17 +66,17 @@
       <div class="image-stage room-stage" id="roomStage">
         <img id="roomImage" src="" alt="">
         <div id="decorLayer"></div>
+        <div id="playersLayer"></div>
         <div id="floatingRoomPanel" class="room-action-overlay"></div>
-        <div id="penguinAvatar">
-          <div id="wearingLayer"></div>
-          <div class="penguin-body">🐧</div>
-          <div id="penguinName">Y</div>
-        </div>
       </div>
 
-      <aside class="side-panel">
-        <div id="roomInfo"></div>
-        <div id="shopArea"></div>
+      <aside class="chat-panel">
+        <h3>💬 Room Chat</h3>
+        <div id="chatMessages"></div>
+        <div class="chat-send">
+          <input id="chatInput" maxlength="120" placeholder="leave a message...">
+          <button id="sendChatBtn" class="small-btn">Send</button>
+        </div>
       </aside>
     </div>
   </section>
@@ -90,6 +90,6 @@
   </div>
 </div>
 
-<script src="script.js"></script>
+<script type="module" src="script.js"></script>
 </body>
 </html>
