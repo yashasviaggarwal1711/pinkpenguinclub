@@ -147,3 +147,62 @@ function shopAction(type,key){
  savePlayer(p);renderShop(type,'Mystic Shop');
 }
 window.shopAction=shopAction;
+
+
+/* V3 visible room controls */
+function setFloating(html){
+  const panel = document.getElementById('floatingRoomPanel');
+  if(panel) panel.innerHTML = html;
+  if(typeof roomInfo !== 'undefined' && roomInfo) roomInfo.innerHTML = html;
+}
+
+function dream(){
+ setFloating(`<h3>🏰 Dream Lodge</h3><p>Decorate your lodge and play Bow Hunt.</p><div class="overlay-buttons"><button class="game-btn" onclick="startBowHunt()">Start Bow Hunt</button><button class="plain-btn" onclick="clearDecor()">Clear Furniture</button></div><p class="tiny">Buy furniture below, then click Place and choose a spot in the room.</p>`);
+ renderShop('dream','Furniture Shop');
+}
+
+function cafe(){
+ setFloating(`<h3>☕ Café</h3><p>Play Cupcake Catch. Catch cupcakes and avoid broccoli.</p><div class="overlay-buttons"><button class="game-btn" onclick="startCupcakeCatch()">Start Cupcake Catch</button></div>`);
+ shopArea.innerHTML=`<div class="card"><h3>Recipes</h3><span class="badge">🧁 Cupcake Recipe</span><span class="badge">🧋 Bubble Tea Recipe</span><span class="badge">🍓 Strawberry Latte</span></div>`;
+}
+
+function mall(){
+ setFloating(`<h3>🎀 Mall</h3><p>Buy clothes, then click Wear. Your penguin will show the item in every room.</p><div class="overlay-buttons"><button class="game-btn" onclick="startMemory()">Start Mall Memory</button></div>`);
+ renderShop('mall','Mall Shop');
+}
+
+function fortune(){
+ setFloating(`<h3>🔮 Fortune Fish</h3><p>Click the fish for a fortune. Each fortune gives 5 coins.</p><div class="overlay-buttons"><button class="game-btn" onclick="fortuneFish()">🐟 Click Fish</button></div><p id="fortuneText"></p>`);
+ renderShop('fortune','Mystic Shop');
+}
+
+function hall(){
+ const d=allData(); 
+ const rows=['A','N','Y'].map(id=>[id,d[id]||blankPlayer()]).sort((a,b)=>(b[1].xp||0)-(a[1].xp||0));
+ setFloating(`<h3>🏆 Hall Leaderboard</h3><div class="leader-grid">${rows.map(([id,p],i)=>`<div class="leader-card">${i+1}. 🐧 ${id}<br>Lv ${p.level||1}<br>🪙 ${p.coins||0}<br>${p.title||'New Penguin'}</div>`).join('')}</div><div class="overlay-buttons"><button class="game-btn" onclick="startQuiz()">Take Penguin Quiz</button></div>`);
+ shopArea.innerHTML=`<div class="card"><h3>Your Trophies</h3>${(player().achievements||[]).map(a=>`<span class="badge">${a}</span>`).join('')||'No titles yet.'}</div>`;
+}
+
+function times(){
+ const d=allData(); 
+ const rows=['A','N','Y'].map(id=>{let p=d[id]||blankPlayer();return `${id}: Level ${p.level||1}, ${p.coins||0} coins, ${p.title||'New Penguin'}.`});
+ const p=player(); 
+ const today=new Date().toDateString(); 
+ const claimed=p.newsClaimDate===today;
+ setFloating(`<h3>📰 Pink Penguin Times</h3><div class="news-box"><div class="headline" id="dailyHeadline">${randomHeadline()}</div><p>Fresh island gossip and suspiciously important headlines.</p></div><div class="overlay-buttons"><button class="game-btn" onclick="newHeadline()">New Headline</button><button class="game-btn" onclick="claimTimesCoins()">${claimed?'Coins claimed today':'Claim reader coins'}</button></div><p>${rows.join('<br>')}</p>`);
+ shopArea.innerHTML=`<div class="card"><h3>Recent News</h3>${collectNews().map(n=>`<div class="news-box">${n}</div>`).join('')||'<p>No news yet. Go make some drama.</p>'}</div>`;
+}
+
+function renderShop(type,title){
+ let p=player();
+ const html = `<div class="card"><h3>${title}</h3><div class="shop-grid">${shop[type].map(([key,name,cost,kind])=>{
+  const owned=p.inventory.includes(key);
+  let action=owned?(kind==='wear'?(p.wearing===key?'Wearing':'Wear'):(kind==='decor'?'Place':'Owned')):'Buy';
+  return `<div class="shop-item"><div>${name}</div><div>🪙 ${cost}</div><button class="buy-btn" onclick="shopAction('${type}','${key}')">${action}</button></div>`;
+ }).join('')}</div></div>`;
+ shopArea.innerHTML = html;
+ const panel = document.getElementById('floatingRoomPanel');
+ if(panel && (type === 'mall' || type === 'dream' || type === 'fortune')){
+   panel.innerHTML += html;
+ }
+}
